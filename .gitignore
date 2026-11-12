@@ -23,7 +23,7 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 AGENTS.md
-
+ui-specification.md
 # Local environment variants and credentials
 .env.*
 !.env.example
