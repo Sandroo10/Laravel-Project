@@ -31,7 +31,7 @@ class VacancyController extends Controller
             $query->where('employment_type', $employmentType);
         }
 
-        $vacancies = $query->orderByDesc('posted_at')->orderByDesc('id')->get();
+        $vacancies = $query->orderByDesc('posted_at')->orderByDesc('id')->paginate(10)->withQueryString();
 
         return view('vacancies.index', compact('vacancies', 'search', 'employmentType'));
     }

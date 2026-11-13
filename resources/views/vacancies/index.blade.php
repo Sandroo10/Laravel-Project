@@ -24,9 +24,9 @@
                 <h2 id="vacancies-heading">Find your next role</h2>
             </div>
             @if($search !== '' || $employmentType !== '')
-                <span class="vacancy-count"><span aria-hidden="true"></span>{{ $vacancies->count() }} {{ $vacancies->count() === 1 ? 'matching role' : 'matching roles' }}</span>
-            @elseif($vacancies->isNotEmpty())
-                <span class="vacancy-count"><span aria-hidden="true"></span>{{ $vacancies->count() }} {{ $vacancies->count() === 1 ? 'open role' : 'open roles' }}</span>
+                <span class="vacancy-count"><span aria-hidden="true"></span>{{ $vacancies->total() }} {{ $vacancies->total() === 1 ? 'matching role' : 'matching roles' }}</span>
+            @elseif($vacancies->total() > 0)
+                <span class="vacancy-count"><span aria-hidden="true"></span>{{ $vacancies->total() }} {{ $vacancies->total() === 1 ? 'open role' : 'open roles' }}</span>
             @else
                 <span class="panel-note">Something good is on the horizon.</span>
             @endif
@@ -110,7 +110,11 @@
                         <tr>
                             <td colspan="7" class="empty-state">
                                 <span class="empty-icon" aria-hidden="true">↗</span>
-                                @if($search !== '' || $employmentType !== '')
+                                @if($vacancies->total() > 0)
+                                    <h3>This page has no roles.</h3>
+                                    <p>Return to the first page to see the available opportunities.</p>
+                                    <a class="button button-primary empty-action" href="{{ $vacancies->url(1) }}">Go to first page</a>
+                                @elseif($search !== '' || $employmentType !== '')
                                     <h3>No matching roles just yet.</h3>
                                     <p>Try another search or employment type, or explore all available roles.</p>
                                     <a class="button button-primary empty-action" href="{{ route('vacancies.index') }}">View all roles</a>
@@ -125,6 +129,11 @@
                 </tbody>
             </table>
         </div>
+        @if($vacancies->hasPages() && $vacancies->isNotEmpty())
+            <div class="pagination-section">
+                {{ $vacancies->links('partials.pagination') }}
+            </div>
+        @endif
         <div class="panel-footer"><span aria-hidden="true">✦</span> Different paths. New possibilities.</div>
     </section>
 
