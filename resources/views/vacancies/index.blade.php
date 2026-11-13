@@ -42,6 +42,7 @@
                         <th scope="col">Salary from</th>
                         <th scope="col">Employment</th>
                         <th scope="col">Posted</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,10 +63,20 @@
                                 </span>
                             </td>
                             <td class="date-cell"><time datetime="{{ $vacancy->posted_at->format('Y-m-d') }}">{{ $vacancy->posted_at->format('M j, Y') }}</time></td>
+                            <td>
+                                <div class="row-actions">
+                                    <a class="row-action edit-action" href="{{ route('vacancies.edit', $vacancy) }}" aria-label="Edit {{ $vacancy->position }} at {{ $vacancy->company }}">Edit</a>
+                                    <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST" data-confirm-delete>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="row-action delete-action" type="submit" aria-label="Delete {{ $vacancy->position }} at {{ $vacancy->company }}" disabled>Delete</button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="empty-state">
+                            <td colspan="7" class="empty-state">
                                 <span class="empty-icon" aria-hidden="true">↗</span>
                                 <h3>Your next opportunity is on its way.</h3>
                                 <p>No vacancies have been posted yet. Check back soon for new roles.</p>
@@ -78,4 +89,15 @@
         </div>
         <div class="panel-footer"><span aria-hidden="true">✦</span> Different paths. New possibilities.</div>
     </section>
+
+    <noscript><p class="field-hint">Enable JavaScript to use the delete confirmation.</p></noscript>
+    <dialog id="delete-confirmation" class="confirmation-dialog" aria-labelledby="delete-heading" aria-describedby="delete-description">
+        <h2 id="delete-heading">Delete this vacancy?</h2>
+        <p id="delete-description">The vacancy will be removed from the board. This cannot be undone.</p>
+        <form method="dialog" class="confirmation-actions">
+            @csrf
+            <button class="button button-secondary" value="cancel" autofocus>Keep vacancy</button>
+            <button class="button button-danger" value="delete">Delete vacancy</button>
+        </form>
+    </dialog>
 @endsection
