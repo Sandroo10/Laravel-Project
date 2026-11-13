@@ -23,7 +23,7 @@
                 <p class="eyebrow section-eyebrow">THE OPPORTUNITY BOARD</p>
                 <h2 id="vacancies-heading">Find your next role</h2>
             </div>
-            @if($search !== '')
+            @if($search !== '' || $employmentType !== '')
                 <span class="vacancy-count"><span aria-hidden="true"></span>{{ $vacancies->count() }} {{ $vacancies->count() === 1 ? 'matching role' : 'matching roles' }}</span>
             @elseif($vacancies->isNotEmpty())
                 <span class="vacancy-count"><span aria-hidden="true"></span>{{ $vacancies->count() }} {{ $vacancies->count() === 1 ? 'open role' : 'open roles' }}</span>
@@ -39,13 +39,26 @@
                     <input id="search" name="search" type="search" value="{{ $search }}" maxlength="255" placeholder="Try Developer or BluePeak" @error('search') aria-invalid="true" aria-describedby="search-error" @enderror>
                     @error('search')<p id="search-error" class="field-error">{{ $message }}</p>@enderror
                 </div>
+                <div class="search-field employment-filter">
+                    <label for="employment_type">Employment type</label>
+                    <select id="employment_type" name="employment_type" data-auto-submit aria-describedby="employment-filter-hint{{ $errors->has('employment_type') ? ' employment-filter-error' : '' }}" @error('employment_type') aria-invalid="true" @enderror>
+                        <option value="">All employment types</option>
+                        @foreach(['full-time' => 'Full-time', 'part-time' => 'Part-time', 'remote' => 'Remote'] as $value => $label)
+                            <option value="{{ $value }}" @selected($employmentType === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                    <span id="employment-filter-hint" class="sr-only">Changing employment type automatically updates the results.</span>
+                    @error('employment_type')<p id="employment-filter-error" class="field-error">{{ $message }}</p>@enderror
+                </div>
                 <button type="submit" class="button button-primary">Search roles <span aria-hidden="true">↗</span></button>
-                @if($search !== '')
-                    <a class="search-clear" href="{{ route('vacancies.index') }}">Clear search</a>
+                @if($search !== '' || $employmentType !== '')
+                    <a class="search-clear" href="{{ route('vacancies.index') }}">{{ $employmentType !== '' ? 'Clear filters' : 'Clear search' }}</a>
                 @endif
             </form>
             @if($search !== '')
-                <p class="search-summary" role="status">Results for <strong>“{{ $search }}”</strong></p>
+                <p class="search-summary" role="status">Results for <strong>“{{ $search }}”</strong>@if($employmentType !== '') · <strong>{{ ucfirst($employmentType) }}</strong>@endif</p>
+            @elseif($employmentType !== '')
+                <p class="search-summary" role="status">Showing <strong>{{ ucfirst($employmentType) }}</strong> roles</p>
             @endif
         </div>
 
@@ -97,9 +110,9 @@
                         <tr>
                             <td colspan="7" class="empty-state">
                                 <span class="empty-icon" aria-hidden="true">↗</span>
-                                @if($search !== '')
+                                @if($search !== '' || $employmentType !== '')
                                     <h3>No matching roles just yet.</h3>
-                                    <p>Try another position or company, or explore all available roles.</p>
+                                    <p>Try another search or employment type, or explore all available roles.</p>
                                     <a class="button button-primary empty-action" href="{{ route('vacancies.index') }}">View all roles</a>
                                 @else
                                     <h3>Your next opportunity is on its way.</h3>

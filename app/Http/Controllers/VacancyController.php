@@ -14,8 +14,10 @@ class VacancyController extends Controller
     {
         $validated = $request->validate([
             'search' => ['nullable', 'string', 'max:255'],
+            'employment_type' => ['nullable', 'string', Rule::in(['full-time', 'part-time', 'remote'])],
         ]);
         $search = trim($validated['search'] ?? '');
+        $employmentType = $validated['employment_type'] ?? '';
         $query = Vacancy::query();
 
         if ($search !== '') {
@@ -25,9 +27,13 @@ class VacancyController extends Controller
             });
         }
 
+        if ($employmentType !== '') {
+            $query->where('employment_type', $employmentType);
+        }
+
         $vacancies = $query->orderByDesc('posted_at')->orderByDesc('id')->get();
 
-        return view('vacancies.index', compact('vacancies', 'search'));
+        return view('vacancies.index', compact('vacancies', 'search', 'employmentType'));
     }
 
     public function create(): View

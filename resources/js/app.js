@@ -1,5 +1,11 @@
 import './bootstrap';
 
+document.querySelectorAll('[data-auto-submit]').forEach((select) => {
+    select.addEventListener('change', () => {
+        select.form.requestSubmit();
+    });
+});
+
 const deleteDialog = document.querySelector('#delete-confirmation');
 
 if (deleteDialog) {

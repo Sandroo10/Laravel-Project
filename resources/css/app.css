@@ -202,3 +202,13 @@
     .search-field input { font-size: 16px; }
     .search-form > .button { flex: 1; }
 }
+
+@layer components {
+    .search-field select { display: block; box-sizing: border-box; width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #0f172a; font: inherit; font-size: 14px; }
+    .search-field select[aria-invalid="true"] { border-color: #b91c1c; }
+    .employment-filter { flex: 0 1 210px; }
+}
+@media (max-width: 600px) {
+    .employment-filter { flex-basis: 100%; }
+    .search-field select { font-size: 16px; }
+}
