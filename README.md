@@ -4,7 +4,7 @@ KIU Laravel MVC midterm, Topic N8: Job Vacancy Board.
 
 ## Current milestone
 
-Laravel 12 configured for MySQL database `vacancies_db`, with a Vacancy model, a vacancies migration, and 24 demonstration vacancies. Sessions and cache use files; queues run synchronously, so framework storage needs no database tables. The public vacancy listing now displays the seeded records through an Eloquent controller and shared Blade layout. Create, edit and delete workflows are implemented with validation, confirmation and success feedback. Search, filtering and pagination remain for later milestones.
+Laravel 12 configured for MySQL database `vacancies_db`, with a Vacancy model, a vacancies migration, and 24 demonstration vacancies. Sessions and cache use files; queues run synchronously, so framework storage needs no database tables. The public vacancy listing now displays the seeded records through an Eloquent controller and shared Blade layout. Create, edit and delete workflows are implemented with validation, confirmation and success feedback. Position/company search is implemented. Employment filtering and pagination remain for later milestones.
 
 Project instructions supplied by the owner are preserved in `AGENTS.md`. The two supplied planning documents informed this setup; the original lecturer rubric and lecture files were not present in the workspace.
 
@@ -63,7 +63,7 @@ composer check-platform-reqs
 php artisan test
 ```
 
-The tests use an isolated in-memory SQLite database and cover the root redirect, listing order and content, an empty listing, HTML escaping, vacancy creation/editing/deletion, invalid/missing inputs, unchanged records after rejected updates, record isolation, missing-record responses, exactly six resource routes, retained form values, one-time success feedback, the vacancy schema, persistence and casts, protected model fields, 24 seed records, all three employment types, shared position/company search terms, and repeated seeding without duplicate fixtures. Listing tests disable Vite rendering so they can run before frontend assets are built; the styled page must also be checked through the development server. They do not modify the local MySQL database. Verify MySQL separately with `db:show` after configuring credentials.
+The tests use an isolated in-memory SQLite database and cover the root redirect, listing order and content, an empty listing, HTML escaping, position/company search, empty and blank searches, escaped query text, vacancy creation/editing/deletion, invalid/missing inputs, unchanged records after rejected updates, record isolation, missing-record responses, exactly six resource routes, retained form values, one-time success feedback, the vacancy schema, persistence and casts, protected model fields, 24 seed records, all three employment types, shared position/company search terms, and repeated seeding without duplicate fixtures. Listing tests disable Vite rendering so they can run before frontend assets are built; the styled page must also be checked through the development server. They do not modify the local MySQL database. Verify MySQL separately with `db:show` after configuring credentials.
 
 `.env`, environment variants, Composer authentication, private key files, dependencies, logs, database files, caches, local build output and editor files are ignored. `.env.example` and `composer.lock` remain trackable. Never put real passwords or app keys in `.env.example`.
 
@@ -71,7 +71,7 @@ The future submission will need compiled frontend assets in its ZIP. `public/bui
 
 ## UI specification
 
-The local `docs/ui-specification.md` documents the visual direction, page structure, forms, responsive behavior, accessibility, and later acceptance checks. It is currently excluded from Git by the owner's ignore rule, so it will not be included in a clone or in this proposed commit. The listing, create page and edit page implement the shared layout and visual direction. Discovery controls remain to be built.
+The local `docs/ui-specification.md` documents the visual direction, page structure, forms, responsive behavior, accessibility, and later acceptance checks. It is currently excluded from Git by the owner's ignore rule, so it will not be included in a clone or in this proposed commit. The listing, create page and edit page implement the shared layout and visual direction. Search is now implemented; employment filtering and pagination remain to be built.
 
 The local MySQL connection was verified against server version 26.10.0 with the `vacancies_db` database. The planned MySQL 8 environment has not been tested.
 
@@ -94,7 +94,7 @@ php artisan db:seed --class=VacancySeeder
 
 `VacancyController@index` loads vacancies with Eloquent. Exactly six named resource routes are implemented: `vacancies.index`, `vacancies.create`, `vacancies.store`, `vacancies.edit`, `vacancies.update`, and `vacancies.destroy`. There is no show route. The listing extends `layouts.app`, includes the shared header, and uses `@forelse` / `@empty` for results plus a visible `@if` for the role count or empty-list message. Desktop uses a semantic HTML table. At mobile/tablet widths, the table scrolls within a labeled, keyboard-focusable container. Employment types have readable badges; Blade escapes record values. Salaries show the stored numeric amount without an invented currency.
 
-Manual review: visit `/`, confirm it redirects to `/vacancies`, inspect the data/order/badges, then narrow the browser and scroll the table horizontally. The automated tests exercise the empty state without clearing your MySQL records. Use Post vacancy in the header to create a record. Use Edit or Delete in a row to manage that vacancy. Search/filter/pagination will appear in later milestones. The current implementation covers all six resource actions and all three required Blade pages; discovery and final submission checks remain.
+Manual review: visit `/`, confirm it redirects to `/vacancies`, inspect the data/order/badges, then narrow the browser and scroll the table horizontally. The automated tests exercise the empty state without clearing your MySQL records. Use Post vacancy in the header to create a record. Use Edit or Delete in a row to manage that vacancy. Use the GET search form to match a position or company. Employment filtering and pagination will appear in later milestones. The current implementation covers all six resource actions and all three required Blade pages; discovery and final submission checks remain.
 
 ## Vacancy creation
 
@@ -115,3 +115,11 @@ Delete opens an accessible in-page confirmation dialog, focused on Keep vacancy 
 Manual review: edit one demonstration vacancy, change its fields, save and confirm the updated row. Try an invalid value to see validation, then cancel without saving. Click Delete and choose Keep vacancy to check cancellation. Only confirm deletion for a record you intend to remove. Local browser checks used disposable fixtures and verified the original 24 vacancies were unchanged afterward.
 
 This step covers the edit page, edit/update/delete controller actions, the remaining named routes, method spoofing, confirmation, and mutation feedback. All three pages use `@extends` / `@section` with a shared layout and included partials. Full grading still depends on the remaining search, filter, pagination and submission requirements.
+
+## Search and manual testing
+
+The listing accepts a GET `search` parameter (nullable string, max 255 characters), trims it, and applies a grouped position LIKE OR company LIKE condition through Eloquent parameter binding. A nonempty term such as `0` is treated as a search. Results remain ordered by posting date and ID. Standard SQL LIKE wildcards `%` and `_` retain their pattern meaning. Search does not match city or employment type. Matching is case-insensitive under the configured MySQL collation.
+
+The input and URL retain the term; Clear search restores the listing. A no-match search has a separate empty state and a View all roles action. Query text is escaped in the HTML. A grouped condition prepares search to combine correctly with employment filtering in the next step, but that filter is not implemented here. This step covers the supplied search criterion; pagination remains a separate milestone.
+
+Follow [the complete manual test checklist](docs/manual-testing.md) to verify listing, create, validation, edit, delete/cancel, persistence, search and mobile/keyboard behavior using one disposable test vacancy. No database reset is required.

@@ -23,10 +23,29 @@
                 <p class="eyebrow section-eyebrow">THE OPPORTUNITY BOARD</p>
                 <h2 id="vacancies-heading">Find your next role</h2>
             </div>
-            @if($vacancies->isNotEmpty())
+            @if($search !== '')
+                <span class="vacancy-count"><span aria-hidden="true"></span>{{ $vacancies->count() }} {{ $vacancies->count() === 1 ? 'matching role' : 'matching roles' }}</span>
+            @elseif($vacancies->isNotEmpty())
                 <span class="vacancy-count"><span aria-hidden="true"></span>{{ $vacancies->count() }} {{ $vacancies->count() === 1 ? 'open role' : 'open roles' }}</span>
             @else
                 <span class="panel-note">Something good is on the horizon.</span>
+            @endif
+        </div>
+
+        <div class="search-section">
+            <form class="search-form" action="{{ route('vacancies.index') }}" method="GET" role="search">
+                <div class="search-field">
+                    <label for="search">Find a position or company</label>
+                    <input id="search" name="search" type="search" value="{{ $search }}" maxlength="255" placeholder="Try Developer or BluePeak" @error('search') aria-invalid="true" aria-describedby="search-error" @enderror>
+                    @error('search')<p id="search-error" class="field-error">{{ $message }}</p>@enderror
+                </div>
+                <button type="submit" class="button button-primary">Search roles <span aria-hidden="true">↗</span></button>
+                @if($search !== '')
+                    <a class="search-clear" href="{{ route('vacancies.index') }}">Clear search</a>
+                @endif
+            </form>
+            @if($search !== '')
+                <p class="search-summary" role="status">Results for <strong>“{{ $search }}”</strong></p>
             @endif
         </div>
 
@@ -78,9 +97,15 @@
                         <tr>
                             <td colspan="7" class="empty-state">
                                 <span class="empty-icon" aria-hidden="true">↗</span>
-                                <h3>Your next opportunity is on its way.</h3>
-                                <p>No vacancies have been posted yet. Check back soon for new roles.</p>
-                                <a class="button button-primary empty-action" href="{{ route('vacancies.create') }}">Post the first vacancy</a>
+                                @if($search !== '')
+                                    <h3>No matching roles just yet.</h3>
+                                    <p>Try another position or company, or explore all available roles.</p>
+                                    <a class="button button-primary empty-action" href="{{ route('vacancies.index') }}">View all roles</a>
+                                @else
+                                    <h3>Your next opportunity is on its way.</h3>
+                                    <p>No vacancies have been posted yet. Check back soon for new roles.</p>
+                                    <a class="button button-primary empty-action" href="{{ route('vacancies.create') }}">Post the first vacancy</a>
+                                @endif
                             </td>
                         </tr>
                     @endforelse

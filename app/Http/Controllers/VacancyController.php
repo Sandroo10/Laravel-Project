@@ -10,11 +10,24 @@ use Illuminate\View\View;
 
 class VacancyController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $vacancies = Vacancy::orderByDesc('posted_at')->orderByDesc('id')->get();
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+        ]);
+        $search = trim($validated['search'] ?? '');
+        $query = Vacancy::query();
 
-        return view('vacancies.index', compact('vacancies'));
+        if ($search !== '') {
+            $query->where(function ($query) use ($search) {
+                $query->where('position', 'like', '%'.$search.'%')
+                    ->orWhere('company', 'like', '%'.$search.'%');
+            });
+        }
+
+        $vacancies = $query->orderByDesc('posted_at')->orderByDesc('id')->get();
+
+        return view('vacancies.index', compact('vacancies', 'search'));
     }
 
     public function create(): View
