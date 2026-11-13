@@ -69,6 +69,7 @@
                                 <span class="empty-icon" aria-hidden="true">↗</span>
                                 <h3>Your next opportunity is on its way.</h3>
                                 <p>No vacancies have been posted yet. Check back soon for new roles.</p>
+                                <a class="button button-primary empty-action" href="{{ route('vacancies.create') }}">Post the first vacancy</a>
                             </td>
                         </tr>
                     @endforelse

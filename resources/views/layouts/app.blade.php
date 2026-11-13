@@ -12,6 +12,7 @@
     @include('partials.header')
 
     <main id="main-content" class="page-container" tabindex="-1">
+        @include('partials.flash')
         @yield('content')
     </main>
 

@@ -5,4 +5,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/vacancies');
 
-Route::resource('vacancies', VacancyController::class)->only(['index']);
+Route::resource('vacancies', VacancyController::class)->only(['index', 'create', 'store']);

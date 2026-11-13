@@ -4,7 +4,7 @@ KIU Laravel MVC midterm, Topic N8: Job Vacancy Board.
 
 ## Current milestone
 
-Laravel 12 configured for MySQL database `vacancies_db`, with a Vacancy model, a vacancies migration, and 24 demonstration vacancies. Sessions and cache use files; queues run synchronously, so framework storage needs no database tables. The public vacancy listing now displays the seeded records through an Eloquent controller and shared Blade layout. Create/edit/delete forms, search, filtering and pagination are not implemented yet.
+Laravel 12 configured for MySQL database `vacancies_db`, with a Vacancy model, a vacancies migration, and 24 demonstration vacancies. Sessions and cache use files; queues run synchronously, so framework storage needs no database tables. The public vacancy listing now displays the seeded records through an Eloquent controller and shared Blade layout. Vacancy creation is implemented with validation and success feedback. Edit/delete forms, search, filtering and pagination remain for later milestones.
 
 Project instructions supplied by the owner are preserved in `AGENTS.md`. The two supplied planning documents informed this setup; the original lecturer rubric and lecture files were not present in the workspace.
 
@@ -63,7 +63,7 @@ composer check-platform-reqs
 php artisan test
 ```
 
-The tests use an isolated in-memory SQLite database and cover the root redirect, listing order and content, an empty listing, HTML escaping, the vacancy schema, persistence and casts, protected model fields, 24 seed records, all three employment types, shared position/company search terms, and repeated seeding without duplicate fixtures. Listing tests disable Vite rendering so they can run before frontend assets are built; the styled page must also be checked through the development server. They do not modify the local MySQL database. Verify MySQL separately with `db:show` after configuring credentials.
+The tests use an isolated in-memory SQLite database and cover the root redirect, listing order and content, an empty listing, HTML escaping, vacancy creation, invalid/missing inputs, retained form values, one-time success feedback, the vacancy schema, persistence and casts, protected model fields, 24 seed records, all three employment types, shared position/company search terms, and repeated seeding without duplicate fixtures. Listing tests disable Vite rendering so they can run before frontend assets are built; the styled page must also be checked through the development server. They do not modify the local MySQL database. Verify MySQL separately with `db:show` after configuring credentials.
 
 `.env`, environment variants, Composer authentication, private key files, dependencies, logs, database files, caches, local build output and editor files are ignored. `.env.example` and `composer.lock` remain trackable. Never put real passwords or app keys in `.env.example`.
 
@@ -71,7 +71,7 @@ The future submission will need compiled frontend assets in its ZIP. `public/bui
 
 ## UI specification
 
-The local `docs/ui-specification.md` documents the visual direction, page structure, forms, responsive behavior, accessibility, and later acceptance checks. It is currently excluded from Git by the owner's ignore rule, so it will not be included in a clone or in this proposed commit. The listing now implements the shared layout and visual direction; create/edit pages and later controls remain to be built.
+The local `docs/ui-specification.md` documents the visual direction, page structure, forms, responsive behavior, accessibility, and later acceptance checks. It is currently excluded from Git by the owner's ignore rule, so it will not be included in a clone or in this proposed commit. The listing and create page now implement the shared layout and visual direction; editing and later controls remain to be built.
 
 The local MySQL connection was verified against server version 26.10.0 with the `vacancies_db` database. The planned MySQL 8 environment has not been tested.
 
@@ -92,6 +92,16 @@ php artisan db:seed --class=VacancySeeder
 
 ## Vacancy listing
 
-`VacancyController@index` loads vacancies with Eloquent. The named `vacancies.index` route is the only resource route implemented at this checkpoint; the remaining five routes belong to CRUD milestones. The listing extends `layouts.app`, includes the shared header, and uses `@forelse` / `@empty` for results plus a visible `@if` for the role count or empty-list message. Desktop uses a semantic HTML table. At mobile/tablet widths, the table scrolls within a labeled, keyboard-focusable container. Employment types have readable badges; Blade escapes record values. Salaries show the stored numeric amount without an invented currency.
+`VacancyController@index` loads vacancies with Eloquent. The named `vacancies.index`, `vacancies.create`, and `vacancies.store` resource routes are implemented at this checkpoint. Edit, update, and destroy remain for the next CRUD step. The listing extends `layouts.app`, includes the shared header, and uses `@forelse` / `@empty` for results plus a visible `@if` for the role count or empty-list message. Desktop uses a semantic HTML table. At mobile/tablet widths, the table scrolls within a labeled, keyboard-focusable container. Employment types have readable badges; Blade escapes record values. Salaries show the stored numeric amount without an invented currency.
 
-Manual review: visit `/`, confirm it redirects to `/vacancies`, inspect the data/order/badges, then narrow the browser and scroll the table horizontally. The automated tests exercise the empty state without clearing your MySQL records. Search/filter/pagination and mutation actions will appear only when implemented in their own steps. This checkpoint supports the Blade and listing/read portions of the rubric; it does not complete all six routes or the full Blade/CRUD criteria.
+Manual review: visit `/`, confirm it redirects to `/vacancies`, inspect the data/order/badges, then narrow the browser and scroll the table horizontally. The automated tests exercise the empty state without clearing your MySQL records. Use Post vacancy in the header to create a record. Search/filter/pagination and edit/delete actions will appear when implemented in their own steps. This checkpoint supports the Blade and listing/read portions of the rubric; it does not complete all six routes or the full Blade/CRUD criteria.
+
+## Vacancy creation
+
+Open `/vacancies/create` using Post vacancy. The create page extends the common Blade layout and includes the reusable `vacancies._form` partial. All six fields are required. Position, company and city are strings up to 255 characters; salary is an integer between 0 and 2,147,483,647; employment type must be full-time, part-time or remote; posting date must use YYYY-MM-DD and fit the MySQL DATE range (1000-01-01 through 9999-12-31). Future posting dates are allowed. Currency remains unspecified.
+
+The CSRF-protected form submits to `vacancies.store`. The controller validates first and passes only validated fields to Eloquent. A successful save redirects to the listing with a one-time success message. Invalid submissions return to the form with field-level errors, accessible error associations, and `old()` input values. Cancel and Back to vacancies return to the listing without saving. There is no authentication in this midterm scope.
+
+Manual review: submit a valid vacancy and confirm it appears on the listing, then refresh to confirm the success message disappears. Submit incomplete or invalid fields to inspect validation; the browser also enforces basic input constraints. The automated tests additionally exercise server validation independently of browser checks. Local browser verification created one uniquely named temporary record, confirmed its MySQL values from a separate process, and removed only that record; the original 24 demo vacancies remain.
+
+This step supports the Create portion of CRUD, the create Blade page, CSRF, flash messages and validation requirements. It does not complete the edit page or full CRUD rubric yet.
