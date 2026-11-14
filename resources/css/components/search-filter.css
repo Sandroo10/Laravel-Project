@@ -1,0 +1,126 @@
+@layer components {
+    .search-section {
+        padding: 0 28px 24px;
+    }
+
+    .search-form {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .search-field {
+        flex: 1 1 280px;
+        min-width: 0;
+    }
+
+    .search-field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #172b4d;
+        font-size: 12px;
+        font-weight: 650;
+    }
+
+    .search-field input {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 13px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #fff;
+        color: #0f172a;
+        font: inherit;
+        font-size: 14px;
+    }
+
+    .search-field input::placeholder {
+        color: #64748b;
+    }
+
+    .search-field input[aria-invalid="true"] {
+        border-color: #b91c1c;
+    }
+
+    .search-clear {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding-inline: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #475569;
+    }
+
+    .search-clear:hover {
+        color: #2563eb;
+    }
+
+    .search-summary {
+        margin-top: 14px;
+        color: #475569;
+        font-size: 13px;
+        overflow-wrap: anywhere;
+    }
+
+    .search-summary strong {
+        font-weight: 600;
+        color: #172b4d;
+    }
+}
+
+@media (max-width: 600px) {
+    .search-section {
+        padding: 0 20px 22px;
+    }
+
+    .search-field {
+        flex-basis: 100%;
+    }
+
+    .search-field input {
+        font-size: 16px;
+    }
+
+    .search-form > .button {
+        flex: 1;
+    }
+}
+
+@layer components {
+    .search-field select {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #fff;
+        color: #0f172a;
+        font: inherit;
+        font-size: 14px;
+    }
+
+    .search-field select[aria-invalid="true"] {
+        border-color: #b91c1c;
+    }
+
+    .employment-filter {
+        flex: 0 1 210px;
+    }
+}
+
+@media (max-width: 600px) {
+    .employment-filter {
+        flex-basis: 100%;
+    }
+
+    .search-field select {
+        font-size: 16px;
+    }
+}

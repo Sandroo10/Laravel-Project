@@ -1,0 +1,36 @@
+@layer components {
+    .employment-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 6px;
+        padding: 5px 9px;
+        white-space: nowrap;
+        font-size: 11px;
+        font-weight: 650;
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .employment-badge > span {
+        height: 5px;
+        width: 5px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+
+    .badge-full-time {
+        background: #eff6ff;
+        color: #1d4ed8;
+    }
+
+    .badge-part-time {
+        background: #fff7ed;
+        color: #9a3412;
+    }
+
+    .badge-remote {
+        background: #f0fdf4;
+        color: #166534;
+    }
+}

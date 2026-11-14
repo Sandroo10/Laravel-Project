@@ -1,0 +1,44 @@
+@layer components {
+    .row-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .row-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 8px 10px;
+        border: 1px solid #e2e8f0;
+        border-radius: 7px;
+        background: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .edit-action {
+        color: #1d4ed8;
+    }
+
+    .edit-action:hover {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+    }
+
+    .delete-action {
+        color: #b91c1c;
+    }
+
+    .delete-action:hover {
+        background: #fef2f2;
+        border-color: #fecaca;
+    }
+
+    .row-action:disabled {
+        opacity: .5;
+        cursor: not-allowed;
+    }
+}

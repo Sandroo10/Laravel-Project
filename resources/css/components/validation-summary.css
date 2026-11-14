@@ -1,0 +1,45 @@
+@layer components {
+    .error-summary {
+        margin-bottom: 26px;
+        padding: 16px 18px;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        background: #fef2f2;
+        color: #991b1b;
+        font-size: 13px;
+    }
+
+    .error-summary h3 {
+        font-weight: 700;
+    }
+
+    .error-summary p {
+        margin-top: 4px;
+    }
+
+    .error-summary ul {
+        margin-top: 10px;
+        padding-left: 18px;
+        list-style: disc;
+    }
+
+    .error-summary li + li {
+        margin-top: 4px;
+    }
+
+    .error-summary a {
+        color: #991b1b;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        overflow-wrap: anywhere;
+    }
+
+    .error-summary a:hover {
+        color: #7f1d1d;
+    }
+
+    .error-summary:focus {
+        outline: 2px solid #b91c1c;
+        outline-offset: 3px;
+    }
+}

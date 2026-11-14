@@ -136,3 +136,24 @@ The controller calls `paginate(10)->withQueryString()` after the grouped search 
 The original 24 records produce 10 roles on page 1, 10 on page 2 and 4 on page 3. Results with only one page do not show pagination controls. An out-of-range page displays a recovery link to page 1 while retaining search/filter choices. Empty searches retain their separate no-match state.
 
 Manual browser verification covered 10/10/4 page sizes, previous/next navigation, mobile controls, total counts, out-of-range recovery, and resetting the page on filter changes. Three disposable records were temporarily created through the normal form so an 11-record result set could demonstrate both a nonempty search and Remote filter surviving page-2 navigation; all three were removed afterward. The original 24 records remain. No automated tests were added or run. This step covers the pagination criterion and query-parameter preservation.
+
+## Validation and accessibility refinements
+
+Create and edit errors now include a focusable summary with links to the affected fields. On a server validation failure, the small frontend script focuses that summary; following an error link moves focus to its input. Existing field-level errors, `aria-invalid` associations and `old()` values remain. The shared form normalizes old values to scalar strings before rendering, so malformed array input is not printed into HTML controls. Valid model defaults, including the edit date, are preserved.
+
+Delete confirmation identifies the selected position and company using escaped markup and JavaScript `textContent`. The dialog has a viewport-based maximum height and can scroll when necessary. Narrow phones stack its action buttons. Keep vacancy remains the initial focus, and Escape cancels without submitting. No database schema or validation rules changed in this refinement.
+
+Manual checks covered invalid create/edit submissions, retained values, summary focus and error-link focus, 320/375/768/1440px form widths, a 320×480px dialog, keyboard cancellation and unchanged listing data. The production asset build and Blade compilation passed. No automated tests were added or run; no review records were created, and the original 24 vacancies remain.
+## CSS organization
+
+`resources/css/app.css` is the Vite/Tailwind entry point. It imports the shared stylesheet and each component stylesheet, then declares the Blade/JavaScript source paths. Vite still produces one application CSS asset; the existing Blade `@vite` entry does not change.
+
+- `resources/css/shared.css`: theme tokens, base styles, page container, skip link, common headings/eyebrows, reusable button variants, field hints/errors, focus behavior and reduced-motion support.
+- `resources/css/components/header.css` and `footer.css`: shared site navigation, branding and footer components.
+- `hero.css`, `vacancy-board.css`, `vacancy-table.css`, `vacancy-actions.css`, `employment-badge.css` and `empty-state.css`: the listing's individual visual components.
+- `vacancy-form.css` and `validation-summary.css`: the form reused by create/edit and its validation feedback.
+- `search-filter.css`, `pagination.css`, `confirmation-dialog.css` and `flash-message.css`: search/filter controls, page navigation, delete confirmation and mutation feedback.
+
+Each component keeps its own responsive rules in the same file. Put a style in shared.css when it is a general primitive used across different components; keep a reusable component's internal styles in that component's file. Add a single import to app.css when introducing another component stylesheet. Run `npm run build` after changes.
+
+This refactor retains the existing selectors, declarations and responsive behavior. The production build and manual desktop/mobile/tablet checks passed, including listing, forms and delete-dialog cancellation. No automated tests were added or run.

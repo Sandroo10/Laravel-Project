@@ -1,0 +1,57 @@
+@layer components {
+    .confirmation-dialog {
+        width: min(440px, calc(100% - 32px));
+        margin: auto;
+        padding: 28px;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        background: #fff;
+        color: #172b4d;
+        box-shadow: 0 24px 80px #0f172a30;
+    }
+
+    .confirmation-dialog::backdrop {
+        background: #0f172a80;
+    }
+
+    .confirmation-dialog h2 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .confirmation-dialog > p {
+        margin-top: 12px;
+        color: #475569;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .confirmation-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 24px;
+    }
+
+    .confirmation-dialog {
+        max-height: calc(100dvh - 32px);
+        overflow-y: auto;
+    }
+
+    #delete-vacancy-name {
+        font-weight: 650;
+        color: #172b4d;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 360px) {
+    .confirmation-dialog {
+        padding: 22px;
+    }
+
+    .confirmation-actions > .button {
+        width: 100%;
+    }
+}

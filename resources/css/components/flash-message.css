@@ -1,0 +1,32 @@
+@layer components {
+    .flash-message {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 24px;
+        padding: 16px 20px;
+        background: #f0fdf4;
+        color: #166534;
+        border: 1px solid #bbf7d0;
+        border-radius: 12px;
+        font-size: 14px;
+    }
+
+    .flash-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        background: #dcfce7;
+        border-radius: 50%;
+        font-weight: 700;
+    }
+}
+
+@media (max-width: 600px) {
+    .flash-message {
+        padding: 14px 16px;
+    }
+}

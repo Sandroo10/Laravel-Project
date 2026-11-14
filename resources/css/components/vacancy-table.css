@@ -1,0 +1,98 @@
+@layer components {
+    .table-hint {
+        display: none;
+        margin: 0;
+        padding: 0 20px 16px;
+        font-size: 12px;
+        color: #475569;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .table-scroll:focus-visible {
+        outline-offset: -3px;
+    }
+
+    .vacancy-table {
+        width: 100%;
+        min-width: 1000px;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    .vacancy-table thead {
+        background: #f8fafc;
+    }
+
+    .vacancy-table thead th {
+        border-block: 1px solid #e2e8f0;
+        padding: 13px 16px;
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 650;
+        letter-spacing: .25px;
+        white-space: nowrap;
+    }
+
+    .vacancy-table th:first-child, .vacancy-table td:first-child {
+        padding-left: 28px;
+    }
+
+    .vacancy-table th:last-child, .vacancy-table td:last-child {
+        padding-right: 28px;
+    }
+
+    .vacancy-table tbody th, .vacancy-table tbody td {
+        padding: 21px 16px;
+        border-bottom: 1px solid #edf1f6;
+        font-size: 13px;
+        vertical-align: middle;
+    }
+
+    .vacancy-table tbody th {
+        color: #172b4d;
+        font-weight: 650;
+        min-width: 235px;
+        max-width: 290px;
+        overflow-wrap: anywhere;
+    }
+
+    .vacancy-table tbody td {
+        color: #475569;
+    }
+
+    .vacancy-table tbody tr:hover {
+        background: #f8faff;
+    }
+
+    .vacancy-table .company-cell {
+        min-width: 160px;
+        max-width: 200px;
+        overflow-wrap: anywhere;
+    }
+
+    .vacancy-table .salary-cell {
+        color: #172b4d;
+        font-weight: 650;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .date-cell {
+        white-space: nowrap;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .table-hint {
+        display: block;
+    }
+}
+
+@layer components {
+    .vacancy-table {
+        min-width: 1180px;
+    }
+}

@@ -98,7 +98,7 @@
                             <td>
                                 <div class="row-actions">
                                     <a class="row-action edit-action" href="{{ route('vacancies.edit', $vacancy) }}" aria-label="Edit {{ $vacancy->position }} at {{ $vacancy->company }}">Edit</a>
-                                    <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST" data-confirm-delete>
+                                    <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST" data-confirm-delete data-vacancy-label="{{ $vacancy->position }} at {{ $vacancy->company }}">
                                         @csrf
                                         @method('DELETE')
                                         <button class="row-action delete-action" type="submit" aria-label="Delete {{ $vacancy->position }} at {{ $vacancy->company }}" disabled>Delete</button>
@@ -140,7 +140,7 @@
     <noscript><p class="field-hint">Enable JavaScript to use the delete confirmation.</p></noscript>
     <dialog id="delete-confirmation" class="confirmation-dialog" aria-labelledby="delete-heading" aria-describedby="delete-description">
         <h2 id="delete-heading">Delete this vacancy?</h2>
-        <p id="delete-description">The vacancy will be removed from the board. This cannot be undone.</p>
+        <p id="delete-description"><strong id="delete-vacancy-name"></strong> will be removed from the board. This cannot be undone.</p>
         <form method="dialog" class="confirmation-actions">
             @csrf
             <button class="button button-secondary" value="cancel" autofocus>Keep vacancy</button>

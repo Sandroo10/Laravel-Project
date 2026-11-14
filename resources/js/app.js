@@ -1,5 +1,11 @@
 import './bootstrap';
 
+const validationSummary = document.querySelector('[data-validation-summary]');
+
+if (validationSummary) {
+    validationSummary.focus();
+}
+
 document.querySelectorAll('[data-auto-submit]').forEach((select) => {
     select.addEventListener('change', () => {
         select.form.requestSubmit();
@@ -15,6 +21,7 @@ if (deleteDialog) {
         if (event.target.matches('[data-confirm-delete]')) {
             event.preventDefault();
             pendingDeleteForm = event.target;
+            deleteDialog.querySelector('#delete-vacancy-name').textContent = pendingDeleteForm.dataset.vacancyLabel;
             deleteDialog.returnValue = '';
             deleteDialog.showModal();
         }

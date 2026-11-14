@@ -1,0 +1,31 @@
+@layer components {
+    .site-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding-block: 32px;
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .footer-brand {
+        color: #172b4d;
+        font-weight: 750;
+        font-size: 16px;
+        letter-spacing: -.5px;
+    }
+
+    .footer-brand span {
+        color: #2563eb;
+    }
+}
+
+@media (max-width: 767px) {
+    .site-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+        padding-block: 24px;
+    }
+}

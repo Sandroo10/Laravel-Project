@@ -1,0 +1,52 @@
+@layer components {
+    .vacancy-table td.empty-state {
+        padding: 64px 24px;
+        text-align: center;
+        white-space: normal;
+    }
+
+    .empty-icon {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 48px;
+        height: 48px;
+        margin-bottom: 16px;
+        border-radius: 12px;
+        background: #eff6ff;
+        color: #2563eb;
+        font-size: 28px;
+    }
+
+    .empty-state h3 {
+        color: #172b4d;
+        font-size: 20px;
+        font-weight: 650;
+    }
+
+    .empty-state p {
+        margin-top: 8px;
+        color: #475569;
+        font-size: 14px;
+    }
+
+    .vacancy-table:has(.empty-state) {
+        min-width: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .vacancy-table td.empty-state {
+        padding: 40px 18px;
+    }
+
+    .empty-state h3 {
+        font-size: 18px;
+    }
+}
+
+@layer components {
+    .empty-action {
+        margin-top: 20px;
+    }
+}

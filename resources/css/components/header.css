@@ -1,0 +1,106 @@
+@layer components {
+    .site-header {
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 88px;
+        gap: 16px;
+    }
+
+    .brand {
+        display: inline-flex;
+        gap: 11px;
+        align-items: center;
+        color: #172b4d;
+        font-size: 23px;
+        font-weight: 750;
+        letter-spacing: -1px;
+    }
+
+    .brand-mark {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        background: #2563eb;
+        color: white;
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 1;
+        padding-bottom: 7px;
+        letter-spacing: -3px;
+        padding-right: 3px;
+    }
+
+    .brand-mark span {
+        color: #bfdbfe;
+    }
+
+    .brand-period {
+        color: #2563eb;
+    }
+
+    .nav-link {
+        display: inline-flex;
+        gap: 24px;
+        align-items: center;
+        min-height: 44px;
+        color: #2563eb;
+        font-size: 14px;
+        font-weight: 650;
+    }
+
+    .nav-link span {
+        font-size: 23px;
+    }
+
+    .nav-link:hover {
+        color: #1d4ed8;
+    }
+}
+
+@media (max-width: 767px) {
+    .header-content {
+        min-height: 76px;
+    }
+
+    .brand {
+        font-size: 21px;
+    }
+
+    .nav-link {
+        gap: 10px;
+        font-size: 13px;
+    }
+}
+
+@layer components {
+    .header-nav {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+    }
+}
+
+@media (max-width: 600px) {
+    .header-nav {
+        gap: 0;
+    }
+
+    .nav-find-role {
+        display: none;
+    }
+
+    .header-nav .button {
+        padding-inline: 13px;
+        font-size: 12px;
+        gap: 8px;
+    }
+}
