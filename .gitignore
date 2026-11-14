@@ -36,3 +36,6 @@ manual-testing.md
 /.tools
 /.tmp
 /coverage
+
+# Generated submission archive
+/dist/
