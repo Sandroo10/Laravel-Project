@@ -63,6 +63,10 @@ Database: `vacancies_db`. Table: `vacancies`.
 | created_at | timestamp |
 | updated_at | timestamp |
 
+## Tests
+
+Run `php vendor/bin/phpunit` after `composer install`. Enable PHP's `pdo_sqlite` extension. The vacancy feature tests use in-memory SQLite and run without frontend assets.
+
 ## Screenshots
 
 [Vacancy listing](screenshots/vacancy-listing.jpg) · [Search results](screenshots/search-results.jpg) · [Create form](screenshots/create-form.jpg) · [Edit form](screenshots/edit-form.jpg)
